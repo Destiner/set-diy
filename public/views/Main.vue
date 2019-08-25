@@ -49,6 +49,7 @@ export default {
 			this.weights = this.selectedTokens.map(token => 50);
 		},
 		async create() {
+			await ethereum.enable();
 			const setContract = new ethers.Contract(setCoreAddress, setAbi, signer);
 			const units = await this._getUnits();
 			const naturalUnit = '1000';
