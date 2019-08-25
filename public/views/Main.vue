@@ -73,8 +73,8 @@ export default {
 				const rateResponse = await kyberProxyContract.getExpectedRate(ether, token, baseAmount);
 				const price = rateResponse[0];
 				const weightNumber = new BigNumber(this.weights[i]);
-				const weight = weightNumber.times(tokenCount).div(totalWeight).times('100').toString();
-				const unit = price.mul(weight).div('100').div(dividor.toString()).toString();
+				const weight = weightNumber.times(tokenCount).div(totalWeight).times('1000').toFixed(0).toString();
+				const unit = price.mul(weight).div('1000').div(dividor.toString()).toString();
 				units.push(unit);
 			}
 			return units;
