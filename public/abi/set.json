@@ -1,0 +1,117 @@
+[{
+	"constant": false,
+	"inputs": [{
+			"name": "_factory",
+			"type": "address"
+		},
+		{
+			"name": "_components",
+			"type": "address[]"
+		},
+		{
+			"name": "_units",
+			"type": "uint256[]"
+		},
+		{
+			"name": "_naturalUnit",
+			"type": "uint256"
+		},
+		{
+			"name": "_name",
+			"type": "bytes32"
+		},
+		{
+			"name": "_symbol",
+			"type": "bytes32"
+		},
+		{
+			"name": "_callData",
+			"type": "bytes"
+		}
+	],
+	"name": "create",
+	"outputs": [{
+		"name": "",
+		"type": "address"
+	}],
+	"payable": false,
+	"stateMutability": "nonpayable",
+	"type": "function"
+}, {
+	"constant": false,
+	"inputs": [{
+			"name": "_set",
+			"type": "address"
+		},
+		{
+			"name": "_quantity",
+			"type": "uint256"
+		}
+	],
+	"name": "issue",
+	"outputs": [],
+	"payable": false,
+	"stateMutability": "nonpayable",
+	"type": "function"
+}, {
+	"constant": false,
+	"inputs": [{
+			"name": "_set",
+			"type": "address"
+		},
+		{
+			"name": "_quantity",
+			"type": "uint256"
+		}
+	],
+	"name": "redeem",
+	"outputs": [],
+	"payable": false,
+	"stateMutability": "nonpayable",
+	"type": "function"
+}, {
+	"constant": false,
+	"inputs": [{
+			"name": "_recipient",
+			"type": "address"
+		},
+		{
+			"name": "_set",
+			"type": "address"
+		},
+		{
+			"name": "_quantity",
+			"type": "uint256"
+		}
+	],
+	"name": "redeemTo",
+	"outputs": [],
+	"payable": false,
+	"stateMutability": "nonpayable",
+	"type": "function"
+}, {
+	"constant": false,
+	"inputs": [{
+			"name": "_set",
+			"type": "address"
+		},
+		{
+			"name": "_to",
+			"type": "address"
+		},
+		{
+			"name": "_quantity",
+			"type": "uint256"
+		},
+		{
+			"name": "_toExclude",
+			"type": "uint256"
+		}
+	],
+	"name": "redeemAndWithdrawTo",
+	"outputs": [],
+	"payable": false,
+	"stateMutability": "nonpayable",
+	"type": "function"
+	}
+]
