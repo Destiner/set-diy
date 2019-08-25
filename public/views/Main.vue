@@ -46,7 +46,6 @@ export default {
 	methods: {
 		async showWeights() {
 			this.isPickingTokens = false;
-			this.weights = this.selectedTokens.map(token => 50);
 		},
 		async create() {
 			await ethereum.enable();

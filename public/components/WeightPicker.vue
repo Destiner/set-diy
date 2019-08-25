@@ -10,6 +10,9 @@
 </template>
 
 <script>
+import { ethers } from 'ethers';
+import BigNumber from 'bignumber.js';
+
 import daiIcon from '../assets/dai.svg';
 import kncIcon from '../assets/knc.svg';
 import manaIcon from '../assets/mana.png';
@@ -19,6 +22,16 @@ import polyIcon from '../assets/poly.png';
 import saltIcon from '../assets/salt.svg';
 import sntIcon from '../assets/snt.svg';
 import zilIcon from '../assets/zil.svg';
+
+import erc20Abi from '../abi/erc20.json';
+import kyberProxyAbi from '../abi/kyberProxy.json';
+
+const kyberProxyAddress = '0x692f391bcc85cefce8c237c01e1f636bbd70ea4d';
+
+const ether = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE';
+const baseAmount = '1000000000000000000';
+
+const provider = new ethers.providers.Web3Provider(ethereum);
 
 export default {
 	props: ['selectedTokens', 'onChange'],
@@ -69,6 +82,9 @@ export default {
 			this.onChange(this.weights);
 		}
 	},
+	mounted() {
+		this.initWeights();
+	},
 	methods: {
 		getPercentage(index) {
 			const weight = parseInt(this.weights[index]);
@@ -80,7 +96,35 @@ export default {
 		getAsset(address) {
 			const asset = this.assets.find((asset) => asset.address == address);
 			return asset;
-		}
+		},
+		async initWeights() {
+			const kyberProxyContract = new ethers.Contract(kyberProxyAddress, kyberProxyAbi, provider);
+			const marketCaps = [];
+			for (const asset of this.assets) {
+				let selected = false;
+				for (const selectedToken of this.selectedTokens) {
+					if (selectedToken == asset.address) {
+						selected = true;
+					}
+				}
+				if (!selected) {
+					continue;
+				}
+				const rateResponse = await kyberProxyContract.getExpectedRate(ether, asset.address, baseAmount);
+				const priceString = rateResponse[0].toString();
+				const price = new BigNumber(priceString);
+				const tokenContract = new ethers.Contract(asset.address, erc20Abi, provider);
+				const supply = await tokenContract.totalSupply();
+				const marketCap = price.times(supply);
+				marketCaps.push(marketCap);
+			}
+			const totalCap = marketCaps.reduce((acc, val) => acc.plus(val), new BigNumber(0));
+			for (let i = 0; i < this.selectedTokens.length; i++) {
+				const marketCap = marketCaps[i];
+				const percentage = marketCap.div(totalCap).times(100).toFixed(0).toString();
+				this.weights[i] = parseInt(percentage);
+			}
+		},
 	}
 }
 </script>
