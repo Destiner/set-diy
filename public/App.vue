@@ -3,14 +3,7 @@
 		<div id="left">
 		</div>
 		<div id="center">
-			<div class="nav-bar">
-				<div>
-					<div class="nav-option">
-						<router-link to="/">Main</router-link>
-					</div>
-				</div>
-			</div>
-			<br>
+			<h1>set.diy</h1>
 			<router-view/>
 		</div>
 		<div id="right">
@@ -28,5 +21,11 @@
 body {
 	font-family: 'Roboto', -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 	font-size: 18px;
+}
+
+button {
+	background: white;
+	border: 2px solid blue;
+	font-size: 24px;
 }
 </style>
