@@ -13,6 +13,11 @@
 				<button @click="sell">Sell</button>
 			</div>
 		</div>
+		<div class="events">
+			<div v-for="event in events" class="event">
+				{{ event }}
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -37,11 +42,13 @@ export default {
 			sellAmount: 0,
 			ethBalance: 0,
 			setBalance: 0,
+			events: [],
 		}
 	},
 	mounted() {
 		this.address = this.$route.params.address;
 		this.updateBalances();
+		this.loadEvents();
 	},
 	methods: {
 		async buy() {
@@ -77,6 +84,38 @@ export default {
 			const setContract = new ethers.Contract(this.address, erc20Abi, signer);
 			const setBalance = await setContract.balanceOf(account);
 			this.setBalance = ethers.utils.formatEther(setBalance).substring(0, 6);
+		},
+		async loadEvents() {
+			const query = `
+				query {
+					issuances(where: {setAddress: "${this.address}"}, orderBy: timestamp) {
+						amount
+						account
+						timestamp
+					}
+					redemptions(where: {setAddress: "${this.address}"}, orderBy: timestamp) {
+						amount
+						account
+						timestamp
+					}
+				}`;
+			const url = "https://api.thegraph.com/subgraphs/name/destiner/set-protocol";
+			const opts = {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ query })
+			};
+			const response = await fetch(url, opts);
+			const json = await response.json();
+			const data = json.data;
+			for (const issuance of data.issuances) {
+				const issuanceString = `Issued ${issuance.amount} by ${issuance.account} at ${issuance.timestamp}`;
+				this.events.push(issuanceString);
+			}
+			for (const redemption of data.redemptions) {
+				const redemptionString = `Redeemed ${redemption.amount} by ${redemption.account} at ${redemption.timestamp}`;
+				this.events.push(redemptionString);
+			}
 		}
 	}
 }

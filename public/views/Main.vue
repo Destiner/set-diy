@@ -98,8 +98,8 @@ export default {
 }
 
 #weightPicker {
-	padding-left: 23em;
-	padding-right: 23em;
+	padding-left: 16em;
+	padding-right: 16em;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

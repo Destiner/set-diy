@@ -137,4 +137,8 @@ export default {
 .asset-icon {
 	width: 16px;
 }
+
+input {
+	width: 300px;
+}
 </style>
