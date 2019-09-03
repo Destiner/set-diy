@@ -3,7 +3,7 @@
 		<div id="left">
 		</div>
 		<div id="center">
-			<h1>set.diy</h1>
+			<h1>set.diy (Kovan)</h1>
 			<router-view/>
 		</div>
 		<div id="right">
